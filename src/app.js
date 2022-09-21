@@ -1,4 +1,9 @@
+import {Note} from './base'
 import './css/main.css'
-import './css/util.css'
 
-console.log('App working...');
+const buttonCreate = document.querySelector('#button-create')
+buttonCreate.addEventListener('click', onButtonClick) 
+
+function onButtonClick() {
+    console.log('response')
+}
