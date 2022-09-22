@@ -129,7 +129,7 @@ function setTableCategory(category, table_name) {
 function toRowCategory(category) { 
     const notes_all = getNotesFromLocalStorage() 
     const count = Object.keys(notes_all.filter(note => !note.archive && category.name == note.category)).length
-    const count_archive = Object.keys(notes_all.filter(note => note.archive&& category.name == note.category)).length
+    const count_archive = Object.keys(notes_all.filter(note => note.archive && category.name == note.category)).length
 
     return `
         <tr>
