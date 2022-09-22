@@ -68,23 +68,50 @@ button {
   border-radius: 5px;
   font-size: 14px;
   margin-top: 15px;
-  margin-bottom: 50;
+  margin-bottom: 50px;
   margin-left: 80%;
   margin-right: 100px;
+}
+button:hover {
+  background-color: #BCEBDD;
+} 
 
+ /* Container needed to position the button. Adjust the width as needed */
+ .container {
+  display: table;
+  border-spacing: 1px 1px;
+  width: 130px;
+  margin: 1px;
 }
 
-button-id {
-  background-color: #4CAF50;
-  border: none;
+/* Style the button and place it in the middle of the container/image */
+.container .btn {
+  display: table-cell;
+  background-color: #F8E391;
+  width: 40px;
   color: white;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 5px;
-  font-size: 14px;
-  margin-top: 15px;
-  margin-bottom: 50;
-  margin-left: 0%;
+  font-size: 5px;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  margin: auto;
 }
+.container .btn:hover {
+  background-color: #4CAF50;
+}
+
+.container .btn2 {
+  display: table-cell;
+  background-color: #BCEBDD;
+  width: 40px;
+  color: white;
+  font-size: 5px;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  margin: auto;
+}
+
+.container .btn2:hover {
+  background-color: #4CAF50;
+}  
