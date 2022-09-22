@@ -11,13 +11,24 @@ const close_modal = document.getElementById('close_modal');
 const modal = document.getElementById('modal');
 let body = document.getElementsByTagName('body')[0];
 
+const form = document.querySelector('#form')
+form.addEventListener('submit', submitFormHandler)
+
+function submitFormHandler(event) {
+    closeWindow()
+}
+
 close_modal.onclick = function() {
+    closeWindow()
+}
+
+function closeWindow() {
     modal.classList.add('bounceOutDown')
     window.setTimeout(function() {
         modal.classList.remove('modal_vis')
         body.classList.remove('body_block')
     }, 500)
-};
+}
 
 function onOpenCreate() {
     modal.classList.add('modal_vis')
