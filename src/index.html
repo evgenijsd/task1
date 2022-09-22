@@ -5,112 +5,93 @@
 <meta charset="UTF-8">
 
 <body>
-
 	<div class="box" id="page">
-	<table>
-		<col style="width:5%">
-		<col style="width:20%">
-		<col style="width:15%">
-		<col style="width:15%">
-		<col style="width:15%">
-		<col style="width:20%">
-		<col style="width:10%">
-		<tr>
-		  <th></th>
-		  <th>Name</th>
-		  <th>Created</th>
-		  <th>Category</th>
-		  <th>Content</th>
-		  <th>Dates</th>
-		  <th>
-			<img height="30" width="30" src="https://img.icons8.com/dotty/344/archive-folder.png">
-			<img height="30" width="30" src="https://img.icons8.com/sf-ultralight/344/trash.png">
-		  </th>
-		  </tr>
-		 <tr>
-		  <td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/add-shopping-cart.png"></td>
-		  <td>Microsoft</td>
-		  <td>45.5</td>
-		  <td>23.5</td>
-		  <td>40.3</td>
-		  <td>29.3</td>
-		  <td>
-			<img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png">
-			<img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
-			<img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
-		  </td>
-		 </tr>
-		<tr>
-		  <td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/man-with-idea.png"></td>
-		  <td>Microsoft</td>
-		  <td>40.63</td>
-		  <td>45.23</td>
-		  <td>39.3</td>
-		  <td>29.3</td>
-		  <td>
-			<img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png">
-			<img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
-			<img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
-		  </td>
-		</tr>
-		<tr>
-		  <td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/literature.png"></td>
-		  <td>Microsoft</td>
-		  <td>45.2</td>
-		  <td>33.3</td>
-		  <td>36.7</td>
-		  <td>29.3</td>
-		  <td>
-			<img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png">
-			<img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
-			<img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
-		  </td>
-		</tr>
-		<tr>
-		  <td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/chevron-down.png"></td>
-		  <td>Microsoft</td>
-		  <td>15.6</td>
-		  <td>22.3</td>
-		  <td>29.3</td>
-		  <td>29.3</td>
-		  <td>
-			<img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png">
-			<img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
-			<img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
-		  </td>
-		</tr>
-	</table>
 
-
+		<table >
+			<col style="width:5%">
+			<col style="width:20%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:20%">
+			<col style="width:10%">
+			<tr>
+			<th></th>
+			<th>Name</th>
+			<th>Created</th>
+			<th>Category</th>
+			<th>Content</th>
+			<th>Dates</th>
+			<th>
+				<div class="container">                    
+					<button class="btn2"><img height="30" width="30" src="https://img.icons8.com/dotty/344/archive-folder.png"></button>          
+					<button class="btn2"><img height="30" width="30" src="https://img.icons8.com/sf-ultralight/344/trash.png"></button>
+				</div>
+			</th>
+			</tr>
+			<tbody id="table-notes"></tbody>
+		</table>
 
 		<button id="button-create" type="button">Create Note</button>
+	
+		<div id="modal" class="modal fadeIn">
+			<div id="close_modal">+</div>
+			<div class="modal_txt">
+				<form class="guruweba_example_form" id="form">
+					<div class="guruweba_example_caption">Edit/Create</div>
+					<div class="guruweba_example_infofield">Category</div>
+					<select id="category" required="required"></select>
+					<div>Name</div>
+					<input type="text" id="name" required="required">
+					<div>Content</div>
+					<input type="text" id="content" required="required">
+					<div>Dates</div>
+					<input type="text" id="dates">
+					<input class="button-submit" type="submit" id="submit_btn" value="Ok">
+				  </form>
+			</div>
+			
+		</div>
 
-
-
-	<table>
-		<col style="width:5%">
-		<col style="width:35%">
-		<col style="width:15%">
-		<col style="width:45%">
-		<tr>
-		  <th></th>
-		  <th>Note Category</th>
-		  <th>Active</th>
-		  <th>Archived</th>
-		  </tr>
-		 <tr>
-		  <td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/todo-list.png"></td>
-		  <td>Microsoft</td>
-		  <td>45.5</td>
-		  <td>23.5</td>
-		 </tr>
-		<tr>
-		  <td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/for-experienced.png"></td>
-		  <td>45.2</td>
-		  <td>40.63</td>
-		  <td>45.23</td>
-		</tr>
+		<table>
+			<col style="width:5%" >
+			<col style="width:35%">
+			<col style="width:30%">
+			<col style="width:30%">
+			<tr>
+				<th></th>
+				<th>Note Category</th>
+				<th>Active</th>
+				<th>Archived</th>
+			</tr>
+			<tbody id="table-category"></tbody>
 		</table>
+
+		<table >
+			<col style="width:5%">
+			<col style="width:20%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:20%">
+			<col style="width:10%">
+			<tr>
+				<th></th>
+				<th>Name</th>
+				<th>Created</th>
+				<th>Category</th>
+				<th>Content</th>
+				<th>Dates</th>
+				<th>
+					<div class="container">                    
+						<button class="btn2"><img height="30" width="30" src="https://img.icons8.com/dotty/344/archive-folder.png"></button>          
+						<button class="btn2"><img height="30" width="30" src="https://img.icons8.com/sf-ultralight/344/trash.png"></button>
+					</div>
+				</th>
+			</tr>
+			<tbody id="table-archive"></tbody>
+		</table>
+
 	</div>
 </body>
 </html>
