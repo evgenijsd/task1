@@ -1,47 +1,10 @@
 [
   {
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
-    "name": "Shopping list",
-    "created": "2022-06-29",
-    "category": "Task",
-    "content": "Tomatoes, bread",
-    "dates": "2022-06-29",
-    "archive": true
+    "name": "Task"
   },
   {
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
-    "name": "Shopping list",
-    "created": "2022-06-29",
-    "category": "Task",
-    "content": "Tomatoes, bread",
-    "dates": "2022-06-29",
-    "archive": true
-  },
-  {
-    "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
-    "name": "Shopping list",
-    "created": "2022-06-29",
-    "category": "Task",
-    "content": "Tomatoes, bread",
-    "dates": "2022-06-29",
-    "archive": true
-  },
-  {
-    "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
-    "name": "Shopping list",
-    "created": "2022-06-29",
-    "category": "Task",
-    "content": "Tomatoes, bread",
-    "dates": "2022-06-29",
-    "archive": true
-  },
-  {
-    "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
-    "name": "Shopping list",
-    "created": "2022-06-29",
-    "category": "Task",
-    "content": "Tomatoes, bread",
-    "dates": "2022-06-29",
-    "archive": true
+    "name": "Task"
   }
 ]

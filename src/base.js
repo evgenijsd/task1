@@ -16,22 +16,12 @@ export class Note {
         .then(Note.renderTables)
     }
 
-    static async getall(){
-        const result = await fetch('https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes.json')
-            .then(response => response.json())
-            .then(response => {
-                if (response && response.error) {
-                  return `<p class="error">${response.error}</p>`
-                }
+    static getall(){
+        loadBase('notes_all', 'notes')
         
-                return response ? Object.keys(response).map(key => ({
-                  ...response[key],
-                  id: key
-                })) : []
-              })
-            
-        localStorage.setItem('notes_all', JSON.stringify(result))    
+        loadBase('category', 'category')
 
+        setSelect()
         Note.renderTables()
     }
 
@@ -39,11 +29,39 @@ export class Note {
         const notes_all = getNotesFromLocalStorage() 
         const notes = notes_all.filter(note => !note.archive)
         const notes_archive = notes_all.filter(note => note.archive)
+        const category = getCategoryFromLocalStorage()
 
         setTable(notes, '#table-notes')
 
         setTable(notes_archive, '#table-archive')
+
+        setTableCategory(category, '#table-category')
     }
+}
+
+function setSelect() {
+    const selectCategory = document.querySelector('#category')
+
+    const category = getCategoryFromLocalStorage()
+
+    selectCategory.innerHTML = category.map(n => `<option value="${n.name}">${n.name}</option>`).join('')
+}
+
+async function loadBase(name, base) {
+    const result = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/${base}.json`)
+    .then(response => response.json())
+    .then(response => {
+        if (response && response.error) {
+          return `<p class="error">${response.error}</p>`
+        }
+
+        return response ? Object.keys(response).map(key => ({
+          ...response[key],
+          id: key
+        })) : []
+      })
+      
+    localStorage.setItem(name, JSON.stringify(result))     
 }
 
 function setTable(notes, table_name) {
@@ -63,6 +81,10 @@ function addToLocalStorage(note) {
 
 function getNotesFromLocalStorage() {
     return JSON.parse(localStorage.getItem('notes_all') || '[]')
+}
+
+function getCategoryFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('category') || '[]')
 }
 
 function toRow(note) { 
@@ -92,6 +114,29 @@ function toRow(note) {
             <td>${note.dates}</td>
             <td>${sButtons}</td>
         </tr>
-    `
-  
+    `  
+}
+
+function setTableCategory(category, table_name) {
+    const html = Object.keys(category).length
+            ? category.map(toRowCategory).join(' ')
+            : `<div>Not Found</div>`;
+
+    const table = document.querySelector(table_name)
+    table.innerHTML = html
+}
+
+function toRowCategory(category) { 
+    const notes_all = getNotesFromLocalStorage() 
+    const count = Object.keys(notes_all.filter(note => !note.archive && category.name == note.category)).length
+    const count_archive = Object.keys(notes_all.filter(note => note.archive&& category.name == note.category)).length
+
+    return `
+        <tr>
+            <td><img height="45" width="45" src="${category.picture}"></td>
+            <td>${category.name}</td>
+            <td>${count}</td>
+            <td>${count_archive}</td>
+        </tr>
+    ` 
 }

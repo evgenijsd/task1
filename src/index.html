@@ -33,32 +33,38 @@
 		</table>
 
 		<button id="button-create" type="button">Create Note</button>
+	
+		<div id="modal" class="modal fadeIn">
+			<div id="close_modal">+</div>
+			<div class="modal_txt">
+				<form class="guruweba_example_form" id="form">
+					<div class="guruweba_example_caption">Edit/Create</div>
+					<div class="guruweba_example_infofield">Category</div>
+					<select id="category" required="required"></select>
+					<div>Name</div>
+					<input type="text" id="name" required="required">
+					<div>Content</div>
+					<input type="text" id="content" required="required">
+					<div>Dates</div>
+					<input type="text" id="dates">
+					<input class="button-submit" type="submit" id="submit_btn" value="Ok">
+				  </form>
+			</div>
+			
+		</div>
 
-		<table id="table-category">
-			<col style="width:5%">
+		<table>
+			<col style="width:5%" >
 			<col style="width:35%">
-			<col style="width:15%">
-			<col style="width:45%">
+			<col style="width:30%">
+			<col style="width:30%">
 			<tr>
 				<th></th>
 				<th>Note Category</th>
 				<th>Active</th>
 				<th>Archived</th>
 			</tr>
-			<tbody>
-				<tr>
-					<td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/todo-list.png"></td>
-					<td>Microsoft</td>
-					<td>45.5</td>
-					<td>23.5</td>
-				</tr>
-				<tr>
-					<td><img height="45" width="45" src="https://img.icons8.com/bubbles/344/for-experienced.png"></td>
-					<td>45.2</td>
-					<td>40.63</td>
-					<td>45.23</td>
-				</tr>
-			</tbody>
+			<tbody id="table-category"></tbody>
 		</table>
 
 		<table >
