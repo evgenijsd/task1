@@ -1,47 +1,47 @@
 [
   {
-    "id": 1,
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
     "name": "Shopping list",
     "created": "2022-06-29",
     "category": "Task",
     "content": "Tomatoes, bread",
-    "dates": "2022-06-29"
+    "dates": "2022-06-29",
+    "archive": true
   },
   {
-    "id": 2,
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
     "name": "Shopping list",
     "created": "2022-06-29",
     "category": "Task",
     "content": "Tomatoes, bread",
-    "dates": "2022-06-29"
+    "dates": "2022-06-29",
+    "archive": true
   },
   {
-    "id": 3,
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
     "name": "Shopping list",
     "created": "2022-06-29",
     "category": "Task",
     "content": "Tomatoes, bread",
-    "dates": "2022-06-29"
+    "dates": "2022-06-29",
+    "archive": true
   },
   {
-    "id": 4,
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
     "name": "Shopping list",
     "created": "2022-06-29",
     "category": "Task",
     "content": "Tomatoes, bread",
-    "dates": "2022-06-29"
+    "dates": "2022-06-29",
+    "archive": true
   },
   {
-    "id": 5,
     "picture": "https://img.icons8.com/dotty/344/archive-folder.png",
     "name": "Shopping list",
     "created": "2022-06-29",
     "category": "Task",
     "content": "Tomatoes, bread",
-    "dates": "2022-06-29"
+    "dates": "2022-06-29",
+    "archive": true
   }
 ]
