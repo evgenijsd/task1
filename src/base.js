@@ -19,7 +19,7 @@ export class Note {
     static getall(){
         loadBase('notes_all', 'notes')
         
-        loadBase('category', 'category')
+        loadBase('categories', 'category')
 
         setSelect()
         Note.renderTables()
@@ -29,22 +29,33 @@ export class Note {
         const notes_all = getNotesFromLocalStorage() 
         const notes = notes_all.filter(note => !note.archive)
         const notes_archive = notes_all.filter(note => note.archive)
-        const category = getCategoryFromLocalStorage()
+        const categories = getCategoriesFromLocalStorage()
 
         setTable(notes, '#table-notes')
 
         setTable(notes_archive, '#table-archive')
 
-        setTableCategory(category, '#table-category')
-    }
+        setTableCategory(categories, '#table-categories')
+
+        const buttons = document.body.querySelectorAll('.btn')
+        console.log(buttons)
+        buttons.forEach(button => {
+            button.addEventListener('click', onRowButton)
+        })
+    }        
+}
+
+function onRowButton() {
+    console.log(this.name)
+    console.log(this.getAttribute('data-id'))
 }
 
 function setSelect() {
-    const selectCategory = document.querySelector('#category')
+    const selectCategories = document.querySelector('#categories')
 
-    const category = getCategoryFromLocalStorage()
+    const categories = getCategoriesFromLocalStorage()
 
-    selectCategory.innerHTML = category.map(n => `<option value="${n.name}">${n.name}</option>`).join('')
+    selectCategories.innerHTML = categories.map(n => `<option value="${n.name}">${n.name}</option>`).join('')
 }
 
 async function loadBase(name, base) {
@@ -83,23 +94,33 @@ function getNotesFromLocalStorage() {
     return JSON.parse(localStorage.getItem('notes_all') || '[]')
 }
 
-function getCategoryFromLocalStorage() {
-    return JSON.parse(localStorage.getItem('category') || '[]')
+function getCategoriesFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('categories') || '[]')
 }
 
 function toRow(note) { 
     let sButtons = `
-        <div class="container">            
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png"></button>          
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png"></button>          
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png"></button>
+        <div class="container" >            
+            <button class="btn" name="edit" data-id=${note.id} >
+                <img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png">
+            </button>          
+            <button class="btn" name="archive" data-id=${note.id} >
+                <img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
+            </button>          
+            <button class="btn" name="delete" data-id=${note.id}>
+                <img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
+            </button>
         </div> 
         `
     if (note.archive) {
         sButtons = `
         <div class="container">                    
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png"></button>          
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png"></button>
+            <button class="btn" name="archive" data-id=${note.id}>
+                <img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
+            </button>          
+            <button class="btn" name="delete" data-id=${note.id}>
+                <img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
+            </button>
         </div>
         `
     }
@@ -117,9 +138,9 @@ function toRow(note) {
     `  
 }
 
-function setTableCategory(category, table_name) {
-    const html = Object.keys(category).length
-            ? category.map(toRowCategory).join(' ')
+function setTableCategory(categories, table_name) {
+    const html = Object.keys(categories).length
+            ? categories.map(toRowCategory).join(' ')
             : `<div>Not Found</div>`;
 
     const table = document.querySelector(table_name)
