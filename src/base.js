@@ -16,14 +16,74 @@ export class Note {
         .then(Note.renderTables)
     }
 
+    static archive(id){
+        const notes_all = getNotesFromLocalStorage() 
+        const note = notes_all.find(note => note.id == id)
+        note.archive = !note.archive
+        localStorage.setItem('notes_all', JSON.stringify(notes_all))
+        delete note.id
+
+        return fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+            method: 'PATCH',
+            body: JSON.stringify(note),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            note.id = response.name
+            return note
+        })
+        .then(Note.renderTables)
+    }
+
+    static update(note){
+        const notes_all = getNotesFromLocalStorage()
+        const id = note.id 
+        let note_update = notes_all.find(note_update => note_update.id == note.id)
+        note_update = note
+        localStorage.setItem('notes_all', JSON.stringify(notes_all))
+        delete note.id
+        console.log(note)
+
+        return fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+            method: 'PATCH',
+            body: JSON.stringify(note),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            note.id = response.name
+            return note
+        })
+        .then(Note.renderTables)
+    }
+
+    static deleteItem(id) {
+        return deleteItemFromBase(id)
+    }
+
+    static getCategories() {
+        return getCategoriesFromLocalStorage()
+    }
+
     static getall(){
         loadBase('notes_all', 'notes')
         
-        loadBase('categories', 'category')
+        loadBase('categories', 'category')   
 
         setSelect()
         Note.renderTables()
     }
+
+    static getNoteById(id) {
+        const notes_all = getNotesFromLocalStorage() 
+        const note = notes_all.find(note => note.id == id)       
+        return note
+    } 
 
     static renderTables() {
         const notes_all = getNotesFromLocalStorage() 
@@ -36,18 +96,7 @@ export class Note {
         setTable(notes_archive, '#table-archive')
 
         setTableCategory(categories, '#table-categories')
-
-        const buttons = document.body.querySelectorAll('.btn')
-        console.log(buttons)
-        buttons.forEach(button => {
-            button.addEventListener('click', onRowButton)
-        })
     }        
-}
-
-function onRowButton() {
-    console.log(this.name)
-    console.log(this.getAttribute('data-id'))
 }
 
 function setSelect() {
@@ -75,6 +124,34 @@ async function loadBase(name, base) {
     localStorage.setItem(name, JSON.stringify(result))     
 }
 
+async function deleteItemFromBase(id) {
+    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+         method: 'DELETE'
+    })
+    
+    if (response.ok) {
+        deleteItemFromLocalStorage(id)
+        Note.renderTables()
+    }
+}
+
+async function updateItemInBase(note) {
+    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+         method: 'PUT'
+    })
+    
+    if (response.ok) {
+        deleteItemFromLocalStorage(id)
+        Note.renderTables()
+    }
+}
+
+function deleteItemFromLocalStorage(id) {
+    let notes_all = getNotesFromLocalStorage()
+    notes_all = notes_all.filter(x => x.id !== id)
+    localStorage.setItem('notes_all', JSON.stringify(notes_all))
+}
+
 function setTable(notes, table_name) {
     const html = Object.keys(notes).length
             ? notes.map(toRow).join(' ')
@@ -85,9 +162,9 @@ function setTable(notes, table_name) {
 }
 
 function addToLocalStorage(note) { 
-    const all = getNotesFromLocalStorage()
-    all.push(note)
-    localStorage.setItem('notes_all', JSON.stringify(all))
+    const notes_all = getNotesFromLocalStorage()
+    notes_all.push(note)
+    localStorage.setItem('notes_all', JSON.stringify(notes_all))
 }
 
 function getNotesFromLocalStorage() {

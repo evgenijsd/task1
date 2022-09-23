@@ -10,21 +10,58 @@ const categories = form.querySelector('#categories')
 const name = form.querySelector('#name')
 const content = form.querySelector('#content')
 const dates = form.querySelector('#dates')
-let categoriesBase = JSON.parse(localStorage.getItem('categories'))
+const categoriesBase = Note.getCategories()
+localStorage.setItem('id', '')
 
 const close_modal = document.getElementById('close_modal');
 const modal = document.getElementById('modal');
 let body = document.getElementsByTagName('body')[0];
 
 form.addEventListener('submit', submitFormHandler)
-buttonCreate.addEventListener('click', onOpenCreate) 
+buttonCreate.addEventListener('click', onOpenCreate)
 
 document.body.querySelectorAll('.btn2').forEach(button => {
     button.addEventListener('click', onHeaderButton)
 })
 
-function onHeaderButton(obj) {
+setButtonsTablesEvents()
+
+function setButtonsTablesEvents() {
+    window.setTimeout(function() {    
+        var buttons = document.body.getElementsByClassName('btn')
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', onRowButton)
+        }
+    }, 500)
+}
+
+function onHeaderButton() {
     console.log(this.id)
+}
+
+function onRowButton() {
+    console.log(this.name)
+    console.log(this.getAttribute('data-id'))
+    switch (this.name) {
+        case 'edit':
+            const id = this.getAttribute('data-id')
+            const note = Note.getNoteById(id)
+            name.value = note.name
+            categories.value = note.category
+            content.value = note.content
+            dates.value = note.dates
+            localStorage.setItem('id', id)
+            onOpenCreate()
+            break
+        case 'delete':
+            Note.deleteItem(this.getAttribute('data-id'))
+            break
+        case 'archive': 
+            Note.archive(this.getAttribute('data-id'))
+            break
+        }; 
+        
+    setButtonsTablesEvents()
 }
 
 function submitFormHandler(event) {    
@@ -42,7 +79,15 @@ function submitFormHandler(event) {
             dates: dates.value,
             archive: false    
     }
-    Note.create(note)
+    if (!id) {
+        Note.create(note)
+    } else {
+        note.id = id
+        Note.update(note)
+    }
+
+    setButtonsTablesEvents()
+    localStorage.setItem('id', '')
 
     closeWindow()
 }
