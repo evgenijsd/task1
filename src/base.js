@@ -17,49 +17,28 @@ export class Note {
     }
 
     static archive(id){
-        const notes_all = getNotesFromLocalStorage() 
-        const note = notes_all.find(note => note.id == id)
+        let notes_all = getNotesFromLocalStorage() 
+        let note = notes_all.find(note => note.id == id)
         note.archive = !note.archive
-        localStorage.setItem('notes_all', JSON.stringify(notes_all))
-        delete note.id
+        let note_update = JSON.parse(JSON.stringify(note))
+        delete note_update.id
 
-        return fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
-            method: 'PATCH',
-            body: JSON.stringify(note),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(response => {
-            note.id = response.name
-            return note
-        })
-        .then(Note.renderTables)
+        if (updateBase(note.id, note_update)) {
+            localStorage.setItem('notes_all', JSON.stringify(notes_all))
+            Note.renderTables()
+        }   
     }
 
     static update(note){
-        const notes_all = getNotesFromLocalStorage()
-        const id = note.id 
-        let note_update = notes_all.find(note_update => note_update.id == note.id)
-        note_update = note
-        localStorage.setItem('notes_all', JSON.stringify(notes_all))
-        delete note.id
-        console.log(note)
+        let notes_all = getNotesFromLocalStorage()
+        notes_all = notes_all.map(x => (x.id === note.id ? note : x))
+        let note_update = JSON.parse(JSON.stringify(note))
+        delete note_update.id
 
-        return fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
-            method: 'PATCH',
-            body: JSON.stringify(note),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(response => {
-            note.id = response.name
-            return note
-        })
-        .then(Note.renderTables)
+        if (updateBase(note.id, note_update)) {
+            localStorage.setItem('notes_all', JSON.stringify(notes_all))
+            Note.renderTables()
+        } 
     }
 
     static deleteItem(id) {
@@ -80,9 +59,7 @@ export class Note {
     }
 
     static getNoteById(id) {
-        const notes_all = getNotesFromLocalStorage() 
-        const note = notes_all.find(note => note.id == id)       
-        return note
+        return getNotesFromLocalStorage().find(note => note.id == id)       
     } 
 
     static renderTables() {
@@ -97,6 +74,30 @@ export class Note {
 
         setTableCategory(categories, '#table-categories')
     }        
+}
+
+async function updateBase(id, note) {
+    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+        method: 'PATCH',
+        body: JSON.stringify(note),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response)
+    
+    return response.ok
+}
+
+async function deleteItemFromBase(id) {
+    await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+         method: 'DELETE'
+    })
+    
+    if (response.ok) {
+        deleteItemFromLocalStorage(id)
+        Note.renderTables()
+    }
 }
 
 function setSelect() {
@@ -122,28 +123,6 @@ async function loadBase(name, base) {
       })
       
     localStorage.setItem(name, JSON.stringify(result))     
-}
-
-async function deleteItemFromBase(id) {
-    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
-         method: 'DELETE'
-    })
-    
-    if (response.ok) {
-        deleteItemFromLocalStorage(id)
-        Note.renderTables()
-    }
-}
-
-async function updateItemInBase(note) {
-    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
-         method: 'PUT'
-    })
-    
-    if (response.ok) {
-        deleteItemFromLocalStorage(id)
-        Note.renderTables()
-    }
 }
 
 function deleteItemFromLocalStorage(id) {

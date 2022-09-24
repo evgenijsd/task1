@@ -40,8 +40,6 @@ function onHeaderButton() {
 }
 
 function onRowButton() {
-    console.log(this.name)
-    console.log(this.getAttribute('data-id'))
     switch (this.name) {
         case 'edit':
             const id = this.getAttribute('data-id')
