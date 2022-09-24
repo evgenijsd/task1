@@ -36,7 +36,20 @@ function setButtonsTablesEvents() {
 }
 
 function onHeaderButton() {
-    console.log(this.id)
+    switch (this.id) {
+        case 'notes_archive':
+            Note.imitationArchivingAllNotes()
+            break
+        case 'notes_delete':
+            Note.imitationRemovalAllNotes()
+            break
+        case 'archive_unarchive': 
+            Note.imitationResrorationFromArchiveAllNotes()
+            break
+        case 'archive_delete': 
+            Note.imitationRemovalAllArchivedNotes()
+            break
+        }
 }
 
 function onRowButton() {
