@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+<title>task1</title>
+<meta charset="UTF-8">
+
+<body>
+	<div class="box" id="page">
+
+		<table >
+			<col style="width:5%">
+			<col style="width:20%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:20%">
+			<col style="width:10%">
+			<tr>
+			<th></th>
+			<th>Name</th>
+			<th>Created</th>
+			<th>Category</th>
+			<th>Content</th>
+			<th>Dates</th>
+			<th>
+				<div class="container" >                    
+					<button class="btn2" id="notes_archive"><img height="30" width="30" src="https://img.icons8.com/dotty/344/archive-folder.png"></button>          
+					<button class="btn2" id="notes_delete"><img height="30" width="30" src="https://img.icons8.com/sf-ultralight/344/trash.png"></button>
+				</div>
+			</th>
+			</tr>
+			<tbody id="table-notes"></tbody>
+		</table>
+
+		<button id="button-create" type="button">Create Note</button>
+	
+		<div id="modal" class="modal fadeIn">
+			<div id="close_modal">+</div>
+			<div class="modal_txt">
+				<form class="guruweba_example_form" id="form">
+					<div class="guruweba_example_caption">Edit/Create</div>
+					<div class="guruweba_example_infofield">Category</div>
+					<select id="categories" required="required"></select>
+					<div>Name</div>
+					<input type="text" id="name" required="required">
+					<div>Content</div>
+					<input type="text" id="content" required="required">
+					<div>Dates</div>
+					<input type="text" id="dates">
+					<button type="submit" class="button-submit">Ok</button>
+				</form>
+			</div>
+			
+		</div>
+
+		<table>
+			<col style="width:5%" >
+			<col style="width:35%">
+			<col style="width:30%">
+			<col style="width:30%">
+			<tr>
+				<th></th>
+				<th>Note Category</th>
+				<th>Active</th>
+				<th>Archived</th>
+			</tr>
+			<tbody id="table-categories"></tbody>
+		</table>
+
+		<table >
+			<col style="width:5%">
+			<col style="width:20%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:15%">
+			<col style="width:20%">
+			<col style="width:10%">
+			<tr>
+				<th></th>
+				<th>Name</th>
+				<th>Created</th>
+				<th>Category</th>
+				<th>Content</th>
+				<th>Dates</th>
+				<th>
+					<div class="container" >                    
+						<button class="btn2" id="archive_unarchive"><img height="30" width="30" src="https://img.icons8.com/dotty/344/archive-folder.png"></button>          
+						<button class="btn2" id="archive_delete"><img height="30" width="30" src="https://img.icons8.com/sf-ultralight/344/trash.png"></button>
+					</div>
+				</th>
+			</tr>
+			<tbody id="table-archive"></tbody>
+		</table>
+
+	</div>
+</body>
+</html>
