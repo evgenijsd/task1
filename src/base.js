@@ -16,35 +16,96 @@ export class Note {
         .then(Note.renderTables)
     }
 
+    static archive(id){
+        let notes_all = getNotesFromLocalStorage() 
+        let note = notes_all.find(note => note.id == id)
+        note.archive = !note.archive
+        let note_update = JSON.parse(JSON.stringify(note))
+        delete note_update.id
+
+        if (updateBase(note.id, note_update)) {
+            localStorage.setItem('notes_all', JSON.stringify(notes_all))
+            Note.renderTables()
+        }   
+    }
+
+    static update(note){
+        let notes_all = getNotesFromLocalStorage()
+        notes_all = notes_all.map(x => (x.id === note.id ? note : x))
+        let note_update = JSON.parse(JSON.stringify(note))
+        delete note_update.id
+
+        if (updateBase(note.id, note_update)) {
+            localStorage.setItem('notes_all', JSON.stringify(notes_all))
+            Note.renderTables()
+        } 
+    }
+
+    static deleteItem(id) {
+        return deleteItemFromBase(id)
+    }
+
+    static getCategories() {
+        return getCategoriesFromLocalStorage()
+    }
+
     static getall(){
         loadBase('notes_all', 'notes')
         
-        loadBase('category', 'category')
+        loadBase('categories', 'category')   
 
         setSelect()
         Note.renderTables()
     }
 
+    static getNoteById(id) {
+        return getNotesFromLocalStorage().find(note => note.id == id)       
+    } 
+
     static renderTables() {
         const notes_all = getNotesFromLocalStorage() 
         const notes = notes_all.filter(note => !note.archive)
         const notes_archive = notes_all.filter(note => note.archive)
-        const category = getCategoryFromLocalStorage()
+        const categories = getCategoriesFromLocalStorage()
 
         setTable(notes, '#table-notes')
 
         setTable(notes_archive, '#table-archive')
 
-        setTableCategory(category, '#table-category')
+        setTableCategory(categories, '#table-categories')
+    }        
+}
+
+async function updateBase(id, note) {
+    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+        method: 'PATCH',
+        body: JSON.stringify(note),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response)
+    
+    return response.ok
+}
+
+async function deleteItemFromBase(id) {
+    await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+         method: 'DELETE'
+    })
+    
+    if (response.ok) {
+        deleteItemFromLocalStorage(id)
+        Note.renderTables()
     }
 }
 
 function setSelect() {
-    const selectCategory = document.querySelector('#category')
+    const selectCategories = document.querySelector('#categories')
 
-    const category = getCategoryFromLocalStorage()
+    const categories = getCategoriesFromLocalStorage()
 
-    selectCategory.innerHTML = category.map(n => `<option value="${n.name}">${n.name}</option>`).join('')
+    selectCategories.innerHTML = categories.map(n => `<option value="${n.name}">${n.name}</option>`).join('')
 }
 
 async function loadBase(name, base) {
@@ -64,6 +125,12 @@ async function loadBase(name, base) {
     localStorage.setItem(name, JSON.stringify(result))     
 }
 
+function deleteItemFromLocalStorage(id) {
+    let notes_all = getNotesFromLocalStorage()
+    notes_all = notes_all.filter(x => x.id !== id)
+    localStorage.setItem('notes_all', JSON.stringify(notes_all))
+}
+
 function setTable(notes, table_name) {
     const html = Object.keys(notes).length
             ? notes.map(toRow).join(' ')
@@ -74,32 +141,42 @@ function setTable(notes, table_name) {
 }
 
 function addToLocalStorage(note) { 
-    const all = getNotesFromLocalStorage()
-    all.push(note)
-    localStorage.setItem('notes_all', JSON.stringify(all))
+    const notes_all = getNotesFromLocalStorage()
+    notes_all.push(note)
+    localStorage.setItem('notes_all', JSON.stringify(notes_all))
 }
 
 function getNotesFromLocalStorage() {
     return JSON.parse(localStorage.getItem('notes_all') || '[]')
 }
 
-function getCategoryFromLocalStorage() {
-    return JSON.parse(localStorage.getItem('category') || '[]')
+function getCategoriesFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('categories') || '[]')
 }
 
 function toRow(note) { 
     let sButtons = `
-        <div class="container">            
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png"></button>          
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png"></button>          
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png"></button>
+        <div class="container" >            
+            <button class="btn" name="edit" data-id=${note.id} >
+                <img height="25" width="25" src="https://img.icons8.com/material-rounded/344/edit--v1.png">
+            </button>          
+            <button class="btn" name="archive" data-id=${note.id} >
+                <img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
+            </button>          
+            <button class="btn" name="delete" data-id=${note.id}>
+                <img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
+            </button>
         </div> 
         `
     if (note.archive) {
         sButtons = `
         <div class="container">                    
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png"></button>          
-            <button class="btn"><img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png"></button>
+            <button class="btn" name="archive" data-id=${note.id}>
+                <img height="25" width="25" src="https://img.icons8.com/external-jumpicon-glyph-ayub-irawan/344/external-_36-user-interface-jumpicon-(glyph)-jumpicon-glyph-ayub-irawan.png">
+            </button>          
+            <button class="btn" name="delete" data-id=${note.id}>
+                <img height="25" width="25" src="https://img.icons8.com/material-sharp/344/trash.png">
+            </button>
         </div>
         `
     }
@@ -117,9 +194,9 @@ function toRow(note) {
     `  
 }
 
-function setTableCategory(category, table_name) {
-    const html = Object.keys(category).length
-            ? category.map(toRowCategory).join(' ')
+function setTableCategory(categories, table_name) {
+    const html = Object.keys(categories).length
+            ? categories.map(toRowCategory).join(' ')
             : `<div>Not Found</div>`;
 
     const table = document.querySelector(table_name)
