@@ -23,7 +23,7 @@ export class Note {
         let note_update = JSON.parse(JSON.stringify(note))
         delete note_update.id
 
-        if (updateBase(note.id, note_update)) {
+        if (updateItemInBase(note.id, note_update)) {
             localStorage.setItem('notes_all', JSON.stringify(notes_all))
             Note.renderTables()
         }   
@@ -35,14 +35,17 @@ export class Note {
         let note_update = JSON.parse(JSON.stringify(note))
         delete note_update.id
 
-        if (updateBase(note.id, note_update)) {
+        if (updateItemInBase(note.id, note_update)) {
             localStorage.setItem('notes_all', JSON.stringify(notes_all))
             Note.renderTables()
         } 
     }
 
-    static deleteItem(id) {
-        return deleteItemFromBase(id)
+    static deleteItem(id) {    
+        if (deleteItemFromBase(id)) {
+            deleteItemFromLocalStorage(id)
+            Note.renderTables()
+        }
     }
 
     static getCategories() {
@@ -76,7 +79,7 @@ export class Note {
     }        
 }
 
-async function updateBase(id, note) {
+async function updateItemInBase(id, note) {
     let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
         method: 'PATCH',
         body: JSON.stringify(note),
@@ -90,14 +93,11 @@ async function updateBase(id, note) {
 }
 
 async function deleteItemFromBase(id) {
-    await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
+    let response = await fetch(`https://task1-32668-default-rtdb.europe-west1.firebasedatabase.app/notes/${id}.json`, {
          method: 'DELETE'
     })
-    
-    if (response.ok) {
-        deleteItemFromLocalStorage(id)
-        Note.renderTables()
-    }
+
+    return response.ok    
 }
 
 function setSelect() {
