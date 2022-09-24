@@ -76,7 +76,45 @@ export class Note {
         setTable(notes_archive, '#table-archive')
 
         setTableCategory(categories, '#table-categories')
-    }        
+    } 
+    
+    static imitationRemovalAllNotes(id) { 
+        let notes_all = getNotesFromLocalStorage() 
+        notes_all = notes_all.filter(note => note.archive)
+        
+        localStorage.setItem('notes_all', JSON.stringify(notes_all))
+
+        Note.renderTables()    
+    }
+    
+    static imitationArchivingAllNotes(id) {   
+        let notes_all = getNotesFromLocalStorage() 
+        notes_all = notes_all.map(note => note.archive ? note : { ...note, archive: true })
+        console.log(notes_all)
+
+        localStorage.setItem('notes_all', JSON.stringify(notes_all))
+
+        Note.renderTables()
+    } 
+
+    static imitationRemovalAllArchivedNotes(id) { 
+        let notes_all = getNotesFromLocalStorage() 
+        notes_all = notes_all.filter(note => !note.archive)
+        
+        localStorage.setItem('notes_all', JSON.stringify(notes_all))
+
+        Note.renderTables()   
+    } 
+
+    static imitationResrorationFromArchiveAllNotes(id) { 
+        let notes_all = getNotesFromLocalStorage() 
+        notes_all = notes_all.map(note => note.archive ? { ...note, archive: false } : note)
+        console.log(notes_all)
+        
+        localStorage.setItem('notes_all', JSON.stringify(notes_all))
+
+        Note.renderTables()    
+    } 
 }
 
 async function updateItemInBase(id, note) {
