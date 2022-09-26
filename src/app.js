@@ -103,10 +103,12 @@ function submitFormHandler(event) {
     localStorage.setItem('id', '')
 
     closeWindow()
+    clearForm()
 }
 
 close_modal.onclick = function() {
     closeWindow()
+    clearForm()
 }
 
 function closeWindow() {
@@ -121,4 +123,14 @@ function onOpenCreate() {
     modal.classList.add('modal_vis')
     modal.classList.remove('bounceOutDown')
     body.classList.add('body_block')
+}
+
+function clearForm() {
+    const categories = Note.getCategories()
+    console.log(categories)
+    name.value = ''
+    categories.value = categories[0]
+    content.value = ''
+    dates.value = ''
+    localStorage.setItem('id', '')
 }
