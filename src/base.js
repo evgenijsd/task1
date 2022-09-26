@@ -90,7 +90,6 @@ export class Note {
     static imitationArchivingAllNotes(id) {   
         let notes_all = getNotesFromLocalStorage() 
         notes_all = notes_all.map(note => note.archive ? note : { ...note, archive: true })
-        console.log(notes_all)
 
         localStorage.setItem('notes_all', JSON.stringify(notes_all))
 
@@ -109,7 +108,6 @@ export class Note {
     static imitationResrorationFromArchiveAllNotes(id) { 
         let notes_all = getNotesFromLocalStorage() 
         notes_all = notes_all.map(note => note.archive ? { ...note, archive: false } : note)
-        console.log(notes_all)
         
         localStorage.setItem('notes_all', JSON.stringify(notes_all))
 
