@@ -50,6 +50,8 @@ function onHeaderButton() {
             Note.imitationRemovalAllArchivedNotes()
             break
         }
+
+        setButtonsTablesEvents()
 }
 
 function onRowButton() {
