@@ -91,8 +91,6 @@ function submitFormHandler(event) {
             dates: (content.value.match(datesFindRegular) || []).join(', '),
             archive: false    
     }
-    console.log('str')
-    console.log(note.dates)
     if (!id) {
         Note.create(note)
     } else {
