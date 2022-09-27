@@ -9,7 +9,6 @@ const form = document.querySelector('#form')
 const categories = form.querySelector('#categories')
 const name = form.querySelector('#name')
 const content = form.querySelector('#content')
-const dates = form.querySelector('#dates')
 const categoriesBase = Note.getCategories()
 localStorage.setItem('id', '')
 
@@ -62,7 +61,6 @@ function onRowButton() {
             name.value = note.name
             categories.value = note.category
             content.value = note.content
-            dates.value = note.dates
             localStorage.setItem('id', id)
             onOpenCreate()
             break
@@ -81,6 +79,7 @@ function submitFormHandler(event) {
     event.preventDefault()
 
     const id =  localStorage.getItem('id')
+    let datesFindRegular = /((\d|\d{2})\D(\d|\d{2})\D\d{4})|(\d{4}\D(\d|\d{2})\D(\d|\d{2}))/g
     const picture = categoriesBase.find(x => x.name == categories.value).picture
 
     const note = {
@@ -89,9 +88,11 @@ function submitFormHandler(event) {
             created: new Date(),
             category: categories.value,
             content: content.value,
-            dates: dates.value,
+            dates: (content.value.match(datesFindRegular) || []).join(', '),
             archive: false    
     }
+    console.log('str')
+    console.log(note.dates)
     if (!id) {
         Note.create(note)
     } else {
@@ -127,10 +128,8 @@ function onOpenCreate() {
 
 function clearForm() {
     const categories = Note.getCategories()
-    console.log(categories)
     name.value = ''
     categories.value = categories[0]
     content.value = ''
-    dates.value = ''
     localStorage.setItem('id', '')
 }
